@@ -4,9 +4,9 @@ module OpenStack
   LOGS = {
    'neutron-dhcp-agent'             => ["#{VarLog}/neutron/dhcp-agent.log"],
    'neutron-l3-agent'               => ["#{VarLog}/neutron/l3-agent.log"],
-   'neutron-lbaas-agent'            => ["#{VarLog}/neutron/lbaas-agent"],
-   'neutron-metadata-agent'         => ["#{VarLog}/neutron/metadata-agent"],
-   'neutron-openvswitch-agent'      => ["#{VarLog}/neutron/openvswitch-agent"],
+   'neutron-lbaas-agent'            => ["#{VarLog}/neutron/lbaas-agent.log"],
+   'neutron-metadata-agent'         => ["#{VarLog}/neutron/metadata-agent.log"],
+   'neutron-openvswitch-agent'      => ["#{VarLog}/neutron/openvswitch-agent.log"],
    'neutron-ovs-cleanup'            => [""],
    'neutron-server'                 => ["#{VarLog}/neutron/server.log"],
    'openstack-ceilometer-api'       => ["#{VarLog}/ceilometer/api.log"],
