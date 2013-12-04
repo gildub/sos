@@ -10,8 +10,8 @@
 =begin rdoc
 =end
 
-require 'os/service'
-require 'os/openstack'
+require 'sos/services'
+require 'sos/openstack'
 
 SYNTAX =
   %s{Usage:
