@@ -37,7 +37,7 @@ Commands:
 
 class Syntax
   def initialize(line)
-    @command   = ''
+    @command   = nil
     @options   = {
       :runlevel => 3,
       :selector   => '/neutron|openstack/',
