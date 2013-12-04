@@ -12,6 +12,7 @@ module OpenStack
    'openstack-ceilometer-api'       => ["#{VarLog}/ceilometer/api.log"],
    'openstack-ceilometer-central'   => ["#{VarLog}/ceilometer/central.log"],
    'openstack-ceilometer-collector' => ["#{VarLog}/ceilometer/collector.log"],
+   'openstack-ceilometer-compute'   => ["#{VarLog}/ceilometer/compute.log"],
    'openstack-cinder-api'           => ["#{VarLog}/cinder/api.log"],
    'openstack-cinder-scheduler'     => ["#{VarLog}/cinder/api.log"],
    'openstack-cinder-volume'        => ["#{VarLog}/cinder/api.log"],
@@ -27,6 +28,7 @@ module OpenStack
    'openstack-nova-conductor'       => ["#{VarLog}/nova/conductor.log"],
    'openstack-nova-console'         => ["#{VarLog}/nova/console.log"],
    'openstack-nova-consoleauth'     => ["#{VarLog}/nova/consoleauth.log"],
+   'openstack-nova-metadata-api'    => ["#{VarLog}/nova/metadata-api.log"],
    'openstack-nova-novncproxy'      => [""],
    'openstack-nova-scheduler'       => ["#{VarLog}/nova/scheduler.log"],
  }

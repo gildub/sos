@@ -1,13 +1,10 @@
-=begin header
-   * Name: os
+=begin rdoc
+   * Name: sos
    * Description: OpenStack services and logs tool for Red Hat OSes familly
-   * URL: https://github.com/gildub/os
+   * URL: https://github.com/gildub/sos
    * Date: 29 Nov 2013
    * Author: Gilles Dubreuil <gilles@redhat.com>
-   * License: Copyright 2011, 2013 Gilles Dubreuil
-=end
-
-=begin rdoc
+   * License: GNU GPLv3
 =end
 
 require 'sos/services'
@@ -15,12 +12,12 @@ require 'sos/openstack'
 
 SYNTAX =
   %s{Usage:
-  os [-fr] list
-  os [-fr] logs    [<SERVICE>] ... [<SERVICE>]
-  os [-fr] restart [<SERVICE>] ... [<SERVICE>]
-  os [-fr] start   [<SERVICE>] ... [<SERVICE>]
-  os [-fr] satus   [<SERVICE>] ... [<SERVICE>]
-  os [-fr] stop    [<SERVICE>] ... [<SERVICE>]
+  os [-sr] list
+  os [-sr] logs    [<SERVICE>] ... [<SERVICE>]
+  os [-sr] restart [<SERVICE>] ... [<SERVICE>]
+  os [-sr] start   [<SERVICE>] ... [<SERVICE>]
+  os [-sr] satus   [<SERVICE>] ... [<SERVICE>]
+  os [-sr] stop    [<SERVICE>] ... [<SERVICE>]
   os help
 
 Options:
@@ -40,10 +37,10 @@ Commands:
 
 class Syntax
   def initialize(line)
-    @command   = ""
+    @command   = ''
     @options   = {
       :runlevel => 3,
-      :filter   => '/neutron|openstack/',
+      :selector   => '/neutron|openstack/',
       :all      => false }
     @arguments = []
 
@@ -51,9 +48,9 @@ class Syntax
       case line[0]
       when '-a', '--all'
         @options[:all] = true
-      when '-f', '--filter'
+      when '-s', '--selector'
         line.shift
-        @options[:filter] = line[0]
+        @options[:selector] = line[0]
       when '-r', '--run_level'
         line.shift
         @options[:runlevel] = line[0].to_i
@@ -67,26 +64,27 @@ class Syntax
       end
       line.shift
     end
+    self.usage unless @command
   end
 
   def run
-    @services = Services.new(@options[:filter], @options[:runlevel], OpenStack::LOGS)
+    @services = Services.new(@options[:selector], @options[:runlevel], @arguments, OpenStack::LOGS)
 
     case @command
     when /status/i, /start/i, /stop/i, /restart/i
-      @services.enabled.each do |service|
+      @services.get_enabled.each { |service|
         system("service #{service.name} #{@command}")
-      end
+      }
     when /logs/i
       logs = ''
-      @services.enabled.each do |service|
+      @services.get_enabled.each { |service|
         logs << service.logs.join(' ') + ' '
-      end
+      }
       exec("tail -f #{logs}") if logs
     when /list/i
-      @services.enabled.each do |service|
+      @services.get_enabled.each { |service|
         puts service.name
-      end
+      }
     when 'test'
       p self
     end

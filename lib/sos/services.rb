@@ -3,16 +3,12 @@ class Service
 
   def initialize(name, state, logs)
     @name      = name
-     if state =~ /on/i
-      @state = true
-    else
-      @state = false
-    end
+    @state = state =~ /on/i ? true : false
     @logs = logs
   end
 
   def has?(filter)
-    true if @name =~ /#{filter}/
+    @name =~ /#{filter}/ ? true : false
   end
 
   def to_s
@@ -21,37 +17,35 @@ class Service
 end
 
 class Services
-  def initialize(filter, run_level, logs)
+  def initialize(selector, run_level, filters, loglist)
     @services = []
 
-    list = %x{chkconfig --list | awk '#{filter} {print $1":"$#{run_level+2}}'}
-    list.each  { |line|
+    installed = %x{chkconfig --list | awk '#{selector} {print $1":"$#{run_level+2}}'}
+    installed.each  { |line|
       line_tab = line.chop.split(':')
       name = line_tab[0]
       state = line_tab[2]
-      @services << Service.new(name, state, logs[name])
+      log = loglist[name] ? loglist[name] : ''
+      @services << Service.new(name, state, log)
     }
+
+    if filters
+      services_all = @services
+      @services = services_all.get_by_name(filters)
+    end
   end
 
   def get_by_name(filters)
     list = []
     filters.each { |filter|
       @services.each { |service|
-        list << service.name if @service.has?(filter)
+        list << service if @service.has?(filter)
       }
     }
     list
   end
 
-  def get_by_name_all
-    list = []
-    @services.each { |service|
-      list << service.name
-    }
-    list
-  end
-
-  def enabled
+  def get_enabled
     list = []
     @services.each { |service|
       list << service if service.state
