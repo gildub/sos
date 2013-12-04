@@ -12,13 +12,13 @@ require 'sos/openstack'
 
 SYNTAX =
   %s{Usage:
-  os [-sr] list
-  os [-sr] logs    [<SERVICE>] ... [<SERVICE>]
-  os [-sr] restart [<SERVICE>] ... [<SERVICE>]
-  os [-sr] start   [<SERVICE>] ... [<SERVICE>]
-  os [-sr] satus   [<SERVICE>] ... [<SERVICE>]
-  os [-sr] stop    [<SERVICE>] ... [<SERVICE>]
-  os help
+  sos [-sr] list
+  sos [-sr] logs    [<SERVICE>] ... [<SERVICE>]
+  sos [-sr] restart [<SERVICE>] ... [<SERVICE>]
+  sos [-sr] start   [<SERVICE>] ... [<SERVICE>]
+  sos [-sr] satus   [<SERVICE>] ... [<SERVICE>]
+  sos [-sr] stop    [<SERVICE>] ... [<SERVICE>]
+  sos help
 
 Options:
   -r, --runlevel <RUNLEVEL>  Change run-level. Default is level 3.
@@ -68,21 +68,21 @@ class Syntax
   end
 
   def run
-    @services = Services.new(@options[:selector], @options[:runlevel], @arguments, OpenStack::LOGS)
+    services = Services.new(@options[:selector], @options[:runlevel], @arguments, OpenStack::LOGS)
 
     case @command
     when /status/i, /start/i, /stop/i, /restart/i
-      @services.get_enabled.each { |service|
+      services.enabled.each { |service|
         system("service #{service.name} #{@command}")
       }
     when /logs/i
       logs = ''
-      @services.get_enabled.each { |service|
+      services.enabled.each { |service|
         logs << service.logs.join(' ') + ' '
       }
       exec("tail -f #{logs}") if logs
     when /list/i
-      @services.get_enabled.each { |service|
+      services.enabled.each { |service|
         puts service.name
       }
     when 'test'
