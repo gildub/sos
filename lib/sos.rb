@@ -55,7 +55,7 @@ class Syntax
         line.shift
         @options[:runlevel] = line[0].to_i
       when /status/i, /start/i, /stop/i, /restart/i, /logs/i, /list/i, 'test'
-        @command << line[0]
+        @command = line[0]
         line.shift
         @arguments = line
         break
