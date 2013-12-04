@@ -1,0 +1,79 @@
+SatOps
+------
+Ruby tool to manipulate and automate Red Hat Satellite objects using its XML/RPC API interface
+Commands such as  export, import and sync help handle RH Satellite content:
+ - Across different Organisation IDs withing a RH Satellite
+ - Between RH Satellites, for Master/Secondary topologies for instance
+
+
+REQUIREMENTS
+------------
+- Red Hat (Network) Satellite 
+  - RHN Satellite 5.4.1 with latest updates
+  - RHN Satellite 5.5
+  - RH Satellite 5.6
+
+- Ruby versions tested
+  - 1.8.7p358
+  - 1.9.3p194
+  - 2.0.0p247
+
+- Rubygems
+  - On RHEL6.x, Rubygems is available from RHEL Server Optional (v. 6 64-bit x86_64) channel
+    $ yum install rubygems
+
+
+INSTALL
+-------
+Directly from Internet:
+$ gem install satops
+
+or 
+
+Manual download:
+1. Grab the latest version from https://rubygems.org/gems/satops
+2. Install the gem manually:
+   $ gem install satops-1.5.2.gem
+
+
+QUICKSTART
+----------
+1. Generate source and target satellites definition file:
+   $ satops show sat > satellites.yaml
+2. Edit the file to adjust your RH Satellites details
+3. Generate options file:
+   $ satops show config > options.yaml
+4. Edit the options.yaml file if needed
+5. Launch satops.
+   $ satops -s satellites.yaml -c options.yaml <command> 
+
+   For instance to synchronise a target satellite from a source:
+   $ satops -s satellites.yaml -c options.yaml sync
+
+
+MANUAL
+------
+For a short version help, run satops without option
+For more details, please refer to the included MANUAL
+
+
+DEVELOPMENTS
+------------
+- Due to the continuing development efforts of the RH Satellite engineering
+  team the API is changing over time to include fixes and enhancement.
+
+
+LICENCE
+-------
+GNU GPLV3 - See COPYING file
+
+
+SOURCES
+-------
+https://github.com/SatOps/SatOps
+
+
+CONTRIBUTORS
+------------
+Gilles   Dubreuil - gilles@redhat.com
+Aurelien Gouny    - aurelien@redhat.com

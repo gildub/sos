@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'sos'
+
+command = Syntax.new(ARGV)
+command.run
