@@ -55,7 +55,7 @@ Demo
   
 * logs will exec tail -f to services corresponding log files  
   using same filtering principle  
-  `$ sos logs agent` 
+  `$ sos logs agent`  
   `==> /var/log//neutron/dhcp-agent.log <==`
   `2013-12-04 23:51:19.795 28273 INFO neutron.openstack.common.rpc.impl_qpid [-] Connected to AMQP server on 192.168.0.222:5672`  
   
