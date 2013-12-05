@@ -53,7 +53,7 @@ Demo
  `openstack-nova-api (pid  2442) is running...`  
  `openstack-nova-compute (pid  4197) is running...`  
   
-* logs will exec tail -f to services corresponding log files  
+* logs runs `exec tail -f` to corresponding log files  
   using same filtering principle  
   `$ sos logs agent`  
   `==> /var/log//neutron/dhcp-agent.log <==`
