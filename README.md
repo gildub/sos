@@ -66,7 +66,7 @@ Uninstall
 `$ gem uninstall sos`  
 
 
-Sources`
+Sources
 -------
 https://github.com/gildub/sos  
 
