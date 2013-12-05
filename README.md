@@ -20,7 +20,7 @@ or
 
 **Manually**
 1. Download the latest version from https://rubygems.org/gems/sos
-2. Install the gem manually:
+2. Install the gem manually
    `$ gem install sos-0.2.6.gem`
 
 
@@ -34,8 +34,8 @@ Demo
 ----
 * All installed openstack and neutron services are used.
   But only enabled ones (chkconfig on) are treated.
- `$ sos list`
- `neutron-openvswitch-agent`
+ `$ sos list
+  neutron-openvswitch-agent`
  `neutron-ovs-cleanup`
  `openstack-ceilometer-compute`
  `openstack-nova-api`
