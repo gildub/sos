@@ -54,12 +54,23 @@ Demo
  `openstack-nova-compute (pid  4197) is running...`  
   
 * logs will exec tail -f to services corresponding log files  
-  with same filtering principle  
- `$ sos logs dhcp`  
- `2013-12-04 23:51:20.005 28254 INFO neutron.openstack.common.rpc.impl_qpid [-]`  
- `Connected to AMQP server on 192.168.0.1:5672`  
+  using same filtering principle  
+  `$ sos logs agent` 
+  `==> /var/log//neutron/dhcp-agent.log <==`
+  `2013-12-04 23:51:19.795 28273 INFO neutron.openstack.common.rpc.impl_qpid [-] Connected to AMQP server on 192.168.0.222:5672`  
+  
+  `==> /var/log//neutron/l3-agent.log <==`  
+  `2013-12-04 23:51:19.795 28273 INFO neutron.openstack.common.rpc.impl_qpid [-] Connected to AMQP server on 192.168.0.222:5672`  
+  
+  `==> /var/log//neutron/metadata-agent.log <==`  
+  `2013-12-03 23:59:33.002 28293 INFO neutron.common.config [-] Logging enabled!`  
+  
+  `==> /var/log//neutron/openvswitch-agent.log <==`  
+  `2013-12-05 00:08:24.410 28239 INFO neutron.agent.securitygroups_rpc [-] Security group member updated [u'7039eb2a-d2bc-4703-9639-e704bf4a0d0d']`  
+  
 
 * Above examples are on a Neutron network node  
+  Logs have been truncated  
 
 Uninstall
 ---------
