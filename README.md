@@ -37,15 +37,15 @@ Demo
 ----
 * All installed openstack and neutron services are used.  
   But only enabled ones (chkconfig on) are treated.  
- `$ sos list  
-  neutron-openvswitch-agent`  
+ `$ sos list`    
+ `neutron-openvswitch-agent`  
  `neutron-ovs-cleanup`  
  `openstack-ceilometer-compute`  
  `openstack-nova-api`  
  `openstack-nova-compute`  
 
 * status, start, stop, restart commands can be used  
- `$ sos status`  
+ `$ sos status`   
  `neutron-openvswitch-agent (pid  2426) is running...`  
  `openstack-ceilometer-compute (pid  2434) is running...`  
  `openstack-nova-api (pid  2442) is running...`  
