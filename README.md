@@ -35,7 +35,7 @@ Run sos from the command line to get help
 
 Demo
 ----
-* All installed openstack and neutron services:
+* All installed openstack and neutron services:  
  `$ sos list`    
  `neutron-dhcp-agent:enabled`  
  `neutron-l3-agent:enabled`  
