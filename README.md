@@ -35,14 +35,14 @@ Run sos from the command line to get help
 
 Demo
 ----
-* All installed openstack and neutron services are used.  
-  But only enabled ones (chkconfig on) are treated.  
+* All installed openstack and neutron services:
  `$ sos list`    
- `neutron-openvswitch-agent`  
- `neutron-ovs-cleanup`  
- `openstack-ceilometer-compute`  
- `openstack-nova-api`  
- `openstack-nova-compute`  
+ `neutron-dhcp-agent:enabled`  
+ `neutron-l3-agent:enabled`  
+ `neutron-metadata-agent:enabled`  
+ `neutron-openvswitch-agent:enabled`  
+ `neutron-ovs-cleanup:enabled`  
+ `neutron-server:disabled`  
 
 * status, start, stop, restart commands can be used  
  `$ sos status`   
