@@ -1,7 +1,7 @@
 sos
 ===
 Service for OpenStack  
-  Is a facilitator for OpenStack services and logs on Red Hat OSes   
+* Is a facilitator for OpenStack services and logs on Red Hat OSes   
 
 
 Requirements
@@ -66,8 +66,9 @@ Demo
   `2013-12-04 23:51:19.795 28273 INFO neutron.openstack.common.rpc.impl_qpid [-] Connected to AMQP server on 192.168.0.222:5672`  
   
 
+Notes  
 * Above examples are from a Neutron network node  
-  Logs have been truncated  
+* Logs have been truncated  
 
 Uninstall
 ---------
