@@ -27,7 +27,7 @@ class Services
         list = %x{ chkconfig --list | awk '#{selector} {print $1":"$#{run_level+2}}'}
       end
     when /Fedora/
-      list = %x{ systemctl list-unit-files | awk '#{selector} {print $1}'}
+      list = %x{ systemctl list-unit-files | awk '#{selector} {print}'}
       list.gsub!(/\.service[\s]*/,':')
     end
 
