@@ -44,7 +44,7 @@ class Syntax
     @command   = nil
     @options   = {
       :runlevel => 3,
-      :selector => 'openstack,neutron'
+      :selector => 'openstack,neutron',
       :all      => false }
     @arguments = []
 
