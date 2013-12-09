@@ -1,6 +1,6 @@
 sos
 ===
-Service for OpenStack, a services and logs facilitator for Red Hat Enterprise"  
+Service for OpenStack, a services and logs facilitator for Red Hat OSes"  
 
 
 Requirements
