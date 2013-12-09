@@ -23,7 +23,7 @@ SYNTAX =
 Options:
   -r, --runlevel <RUNLEVEL> 
     Change run-level. Default is level 3.
-  -s, --selector <STRING>, ... ,<STRING>
+  -s, --selector <NAME>, ... ,<NAME>
     Assign selector. Default is "openstack,neutron".
   -h, --help
     This help
@@ -31,10 +31,10 @@ Options:
 Commands:
   list      List available OpenStack services
   logs      Runs "tail -f"
-  restart   Runs "service restart"
-  start     Runs "service start"
-  status    Runs "service status"
-  stop      Runs "service stop"
+  restart   Runs "service restart" on enabled services
+  start     Runs "service start"   on enabled services
+  status    Runs "service status"  on enabled services
+  stop      Runs "service stop"    on enabled services
 
 <SERVICE>   Service name
 }
@@ -73,8 +73,8 @@ class Syntax
 
   def run
 
-    services_list = Services.build_list(@options[:selector], @options[:runlevel], @arguments, OpenStack::LOGS)
-    services = Services.new(services_list)
+    services_list = Services.build_list(@options[:selector], @options[:runlevel], @arguments)
+    services = Services.new(services_list, OpenStack::LOGS)
 
     case @command
     when /status/i, /start/i, /stop/i, /restart/i
@@ -88,8 +88,8 @@ class Syntax
       }
       exec("tail -f #{logs}") if logs
     when /list/i
-      services.enabled.each { |service|
-        puts service.name
+      services.by_name.each { |service|
+        puts service
       }
     when 'test'
       p self

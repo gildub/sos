@@ -2,9 +2,9 @@ class Service
   attr_reader :name, :state, :logs
 
   def initialize(name, state, logs)
-    @name      = name
+    @name  = name
     @state = state =~ /on|enabled/i ? true : false
-    @logs = logs
+    @logs  = logs
   end
 
   def has?(filter)
@@ -12,7 +12,8 @@ class Service
   end
 
   def to_s
-    @name + ':' + @state
+    state = @state ? 'enabled' : 'disabled'
+    @name + ':' + state
   end
 end
 
@@ -24,16 +25,15 @@ class Services
     selector = selectors.split(',').join('|')
 
     list=''
-    os = %x{facter | grep -e operatingsystem}
-    case os
-    when /RedHat/
-      majrelease = %x{facter | grep -e operatingsystemmajrelease}
-      if majrelease =~ /6/
+    redhat = %x{cat /etc/redhat-release}
+    case redhat
+    when /Red Hat Enterprise Linux/
+      if redhat =~ /release 6/
         list = %x{ chkconfig --list | awk '/#{selector}/ {print $1":"$#{run_level+2}}'}
         list.gsub!(/:\d:/,':')
       end
     when /Fedora/
-      list = %x{ systemctl list-unit-files | awk '#{selector} {print}'}
+      list = %x{ systemctl list-unit-files | awk '/#{selector}/ {print}'}
       list.gsub!(/\.service[\s]*/,':')
     end
 
@@ -54,15 +54,13 @@ class Services
       log = services_logs[name] ? services_logs[name] : ''
       @services << Service.new(name, state, log)
     }
+    @services
   end
 
-  def get_by_name(filters)
-    return @services
+  def by_name
     list = []
-    filters.each { |filter|
-      @services.each { |service|
-        list << service if @service.has?(filter)
-      }
+    @services.each { |service|
+      list << service
     }
     list
   end
