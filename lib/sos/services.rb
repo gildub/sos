@@ -17,14 +17,20 @@ class Service
 end
 
 class Services
-  def self.build_service_list(selector, run_level, filters)
+  def self.build_list(selectors, run_level, filters)
+    # Returns each service on a line with
+    # name:state
+
+    selector = selectors.split(',').join('|')
+
     list=''
     os = %x{facter | grep -e operatingsystem}
     case os
     when /RedHat/
       majrelease = %x{facter | grep -e operatingsystemmajrelease}
       if majrelease =~ /6/
-        list = %x{ chkconfig --list | awk '#{selector} {print $1":"$#{run_level+2}}'}
+        list = %x{ chkconfig --list | awk '/#{selector}/ {print $1":"$#{run_level+2}}'}
+        list.gsub!(/:\d:/,':')
       end
     when /Fedora/
       list = %x{ systemctl list-unit-files | awk '#{selector} {print}'}
@@ -33,7 +39,7 @@ class Services
 
     if filters != []
       filtered = ''
-      list.each { |line|
+      list.each_line { |line|
         filters.each { |filter| filtered << line if line =~ /#{filter}/ }
       }
       list = filtered
@@ -41,16 +47,11 @@ class Services
     list
   end
 
-  def initialize(selector, run_level, filters, loglist)
+  def initialize(service_list, services_logs)
     @services = []
-
-    list = Services.build_service_list(selector, run_level, filters)
-
-    list.each  { |line|
-      line_tab = line.chop.split(':')
-      name = line_tab[0]
-      state = line_tab[2]
-      log = loglist[name] ? loglist[name] : ''
+    service_list.each_line  { |line|
+      name, state = line.chop.split(':')
+      log = services_logs[name] ? services_logs[name] : ''
       @services << Service.new(name, state, log)
     }
   end

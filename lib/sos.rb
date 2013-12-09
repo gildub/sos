@@ -21,8 +21,12 @@ SYNTAX =
   sos help
 
 Options:
-  -r, --runlevel <RUNLEVEL>  Change run-level. Default is level 3.
-  -h, --help     This help
+  -r, --runlevel <RUNLEVEL> 
+    Change run-level. Default is level 3.
+  -s, --selector <STRING>, ... ,<STRING>
+    Assign selector. Default is "openstack,neutron".
+  -h, --help
+    This help
 
 Commands:
   list      List available OpenStack services
@@ -32,7 +36,7 @@ Commands:
   status    Runs "service status"
   stop      Runs "service stop"
 
-<SERVICE>   Openstack service
+<SERVICE>   Service name
 }
 
 class Syntax
@@ -40,7 +44,7 @@ class Syntax
     @command   = nil
     @options   = {
       :runlevel => 3,
-      :selector   => '/neutron|openstack/',
+      :selector => 'openstack,neutron'
       :all      => false }
     @arguments = []
 
@@ -50,7 +54,7 @@ class Syntax
         @options[:all] = true
       when '-s', '--selector'
         line.shift
-        @options[:selector] = line[0]
+        @options[:selector] = line[0].gsub(/\s*/,'')
       when '-r', '--run_level'
         line.shift
         @options[:runlevel] = line[0].to_i
@@ -68,7 +72,9 @@ class Syntax
   end
 
   def run
-    services = Services.new(@options[:selector], @options[:runlevel], @arguments, OpenStack::LOGS)
+
+    services_list = Services.build_list(@options[:selector], @options[:runlevel], @arguments, OpenStack::LOGS)
+    services = Services.new(services_list)
 
     case @command
     when /status/i, /start/i, /stop/i, /restart/i
