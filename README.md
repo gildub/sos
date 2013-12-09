@@ -6,10 +6,12 @@ Service for OpenStack, a services and logs facilitator for Red Hat Enterprise"
 Requirements
 ------------
 * RHEL 6.x  
+* Fedora 19+
 
-* Rubygems  
-  * On RHEL6.x, install rubygems rpm, available from RHEL Server Optional (v. 6 64-bit x86_64) channel: `$ yum install rubygems`  
-
+* Rubygems RPM  
+  `$ yum install rubygems`  
+  * On RHEL, it's available from RHEL Server Optional (v. 6 64-bit x86_64) channel  
+  
 
 Install
 -------
@@ -55,21 +57,15 @@ Demo
   
 * logs runs `exec tail -f` to corresponding log files  
   using same filtering principle  
-  `$ sos logs agent`  
+  `$ sos logs dhcp l3`  
   `==> /var/log//neutron/dhcp-agent.log <==`
   `2013-12-04 23:51:19.795 28273 INFO neutron.openstack.common.rpc.impl_qpid [-] Connected to AMQP server on 192.168.0.222:5672`  
   
   `==> /var/log//neutron/l3-agent.log <==`  
   `2013-12-04 23:51:19.795 28273 INFO neutron.openstack.common.rpc.impl_qpid [-] Connected to AMQP server on 192.168.0.222:5672`  
   
-  `==> /var/log//neutron/metadata-agent.log <==`  
-  `2013-12-03 23:59:33.002 28293 INFO neutron.common.config [-] Logging enabled!`  
-  
-  `==> /var/log//neutron/openvswitch-agent.log <==`  
-  `2013-12-05 00:08:24.410 28239 INFO neutron.agent.securitygroups_rpc [-] Security group member updated [u'7039eb2a-d2bc-4703-9639-e704bf4a0d0d']`  
-  
 
-* Above examples are on a Neutron network node  
+* Above examples are from a Neutron network node  
   Logs have been truncated  
 
 Uninstall

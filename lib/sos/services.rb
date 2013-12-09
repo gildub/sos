@@ -3,7 +3,7 @@ class Service
 
   def initialize(name, state, logs)
     @name      = name
-    @state = state =~ /on/i ? true : false
+    @state = state =~ /on|enabled/i ? true : false
     @logs = logs
   end
 
@@ -17,10 +17,19 @@ class Service
 end
 
 class Services
-  def initialize(selector, run_level, filters, loglist)
-    @services = []
-
-    list = %x{chkconfig --list | awk '#{selector} {print $1":"$#{run_level+2}}'}
+  def self.build_service_list(selector, run_level, filters)
+    list=''
+    os = %x{facter | grep -e operatingsystem}
+    case os
+    when /RedHat/
+      majrelease = %x{facter | grep -e operatingsystemmajrelease}
+      if majrelease =~ /6/
+        list = %x{ chkconfig --list | awk '#{selector} {print $1":"$#{run_level+2}}'}
+      end
+    when /Fedora/
+      list = %x{ systemctl list-unit-files | awk '#{selector} {print $1}'}
+      list.gsub!(/\.service[\s]*/,':')
+    end
 
     if filters != []
       filtered = ''
@@ -29,6 +38,13 @@ class Services
       }
       list = filtered
     end
+    list
+  end
+
+  def initialize(selector, run_level, filters, loglist)
+    @services = []
+
+    list = Services.build_service_list(selector, run_level, filters)
 
     list.each  { |line|
       line_tab = line.chop.split(':')
